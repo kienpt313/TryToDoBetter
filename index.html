@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a2332" />
+  <meta name="description" content="Lịch học hằng ngày: IELTS, Graph, AI y sinh, hồ sơ PhD Úc & Nhật" />
+  <title>Lịch PhD · IELTS + Nghiên cứu</title>
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icon.svg" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div>
+        <p class="eyebrow" id="clock-label">Hôm nay</p>
+        <h1 id="date-title">Lịch học</h1>
+      </div>
+      <div class="top-stats">
+        <div class="ring-wrap" title="Tiến độ hôm nay">
+          <svg viewBox="0 0 36 36" class="ring">
+            <path class="ring-bg" d="M18 2.5 a 15.5 15.5 0 1 1 0 31 a 15.5 15.5 0 1 1 0 -31" />
+            <path class="ring-fg" id="ring-fg" d="M18 2.5 a 15.5 15.5 0 1 1 0 31 a 15.5 15.5 0 1 1 0 -31" />
+          </svg>
+          <span id="ring-text">0%</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="now-card" id="now-card" hidden>
+      <p class="now-kicker">Đang tới / đang học</p>
+      <p class="now-title" id="now-title"></p>
+      <p class="now-sub" id="now-sub"></p>
+    </section>
+
+    <nav class="tabs tabs-5" role="tablist">
+      <button class="tab is-active" data-tab="today" type="button">Hôm nay</button>
+      <button class="tab" data-tab="history" type="button">Lịch sử</button>
+      <button class="tab" data-tab="week" type="button">Tuần</button>
+      <button class="tab" data-tab="apply" type="button">Úc · Nhật</button>
+      <button class="tab" data-tab="sync" type="button">Đồng bộ</button>
+    </nav>
+
+    <main>
+      <section id="panel-today" class="panel is-active">
+        <div class="date-nav">
+          <button type="button" class="btn icon-btn" id="btn-prev-day" aria-label="Ngày trước">‹</button>
+          <div class="date-nav-mid">
+            <input type="date" id="date-pick" />
+            <button type="button" class="btn ghost" id="btn-today">Về hôm nay</button>
+          </div>
+          <button type="button" class="btn icon-btn" id="btn-next-day" aria-label="Ngày sau">›</button>
+        </div>
+        <p class="hint" id="viewing-hint"></p>
+        <div class="mode-row">
+          <label class="switch">
+            <input type="checkbox" id="min-mode" />
+            <span>Ngày mệt: chỉ 90 phút</span>
+          </label>
+          <span class="chip" id="day-chip">Ngày thường</span>
+        </div>
+        <div id="today-list"></div>
+        <label class="note-label" for="day-note">Ghi chú ngày này</label>
+        <textarea id="day-note" rows="3" placeholder="Ví dụ: Writing còn yếu linking words; GAT chưa rõ attention..."></textarea>
+      </section>
+
+      <section id="panel-history" class="panel">
+        <article class="info-card">
+          <h2>Việc đã làm</h2>
+          <p>Mỗi ngày bạn tick hoặc ghi chú sẽ nằm ở đây. Bấm một ngày để xem chi tiết (việc xong / bỏ sót).</p>
+        </article>
+        <p class="streak" id="history-summary"></p>
+        <div id="history-list"></div>
+      </section>
+
+      <section id="panel-week" class="panel">
+        <div class="week-grid" id="week-grid"></div>
+        <article class="info-card">
+          <h2>Chủ nhật 15:00 · xen tuần</h2>
+          <p><strong>Tuần lẻ:</strong> Úc — 1 supervisor (RTP, 2 paper của lab, fit với paper của bạn).</p>
+          <p><strong>Tuần chẵn:</strong> Nhật — 1 lab English-track (UTokyo, Science Tokyo, Kyoto, NAIST…).</p>
+          <p id="week-parity" class="hint"></p>
+        </article>
+      </section>
+
+      <section id="panel-apply" class="panel">
+        <article class="info-card">
+          <h2>Mốc thực tế: nhập học 2028</h2>
+          <ul class="plain">
+            <li>Úc: IELTS thường 6.5, không skill dưới 6.0; vòng RTP nhiều trường ~8–11 năm trước khi vào.</li>
+            <li>Nhật: chương trình English ~6.0–6.5; mail GS trước, MEXT theo GS hoặc đại sứ quán.</li>
+            <li>Đừng mail hàng loạt khi Writing còn band 4–5. Có 1–2 paper rồi thì dùng chúng làm xương SOP.</li>
+          </ul>
+        </article>
+        <h2 class="section-h">Việc theo giai đoạn</h2>
+        <div id="milestone-list"></div>
+      </section>
+
+      <section id="panel-sync" class="panel">
+        <article class="info-card">
+          <h2>Đồng bộ máy tính ↔ điện thoại</h2>
+          <p>GitHub Pages chỉ host app, <strong>không lưu tick</strong>. Tick nằm trên từng trình duyệt. Để tự gộp giữa các máy, dùng một <strong>Gist riêng</strong> (file JSON trên GitHub, không phải trang Pages).</p>
+          <ol class="plain">
+            <li>Tạo token: GitHub → Settings → Developer settings → Personal access tokens → Classic → <strong>gist</strong> → copy token.</li>
+            <li>Trên máy tính: dán token → <strong>Tạo kho đồng bộ</strong>. Copy mã Gist.</li>
+            <li>Trên điện thoại: dán <em>cùng token</em> + mã Gist → <strong>Lưu và tải</strong>.</li>
+          </ol>
+          <p class="hint">Token chỉ lưu trên máy bạn, không đưa lên repo. Đừng đánh dấu repo chứa token. Token classic chỉ cần quyền gist.</p>
+        </article>
+        <label class="note-label" for="cloud-token">GitHub token (gist)</label>
+        <input id="cloud-token" type="password" autocomplete="off" placeholder="ghp_..." />
+        <label class="note-label" for="cloud-gist">Mã Gist</label>
+        <input id="cloud-gist" type="text" autocomplete="off" placeholder="dán id sau khi tạo kho" />
+        <div class="sync-actions">
+          <button type="button" class="btn primary" id="btn-cloud-create">Tạo kho đồng bộ</button>
+          <button type="button" class="btn primary" id="btn-cloud-save">Lưu và tải</button>
+          <button type="button" class="btn" id="btn-cloud-pull">Tải lại ngay</button>
+        </div>
+        <p class="hint" id="cloud-status">Chưa nối cloud. Tick vẫn lưu local trên máy này.</p>
+        <div class="sync-actions">
+          <button type="button" class="btn primary" id="btn-copy">Sao chép mã đồng bộ</button>
+          <button type="button" class="btn" id="btn-export">Tải file JSON</button>
+          <label class="btn file-btn">Mở file JSON<input type="file" id="file-import" accept="application/json,.json" /></label>
+        </div>
+        <label class="note-label" for="sync-paste">Dán mã / JSON để nhập</label>
+        <textarea id="sync-paste" rows="6" placeholder='Dán mã đồng bộ rồi bấm "Nhập"'></textarea>
+        <button type="button" class="btn primary" id="btn-import">Nhập</button>
+        <p class="hint" id="sync-msg"></p>
+        <p class="streak" id="streak-line"></p>
+      </section>
+    </main>
+
+    <footer class="foot">
+      Lịch theo giờ VN (UTC+7) · Writing không được skip ngày thường
+    </footer>
+  </div>
+  <script src="./data.js"></script>
+  <script src="./cloud.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
