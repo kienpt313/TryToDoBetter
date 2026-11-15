@@ -1,4 +1,4 @@
-const CACHE = "phd-daily-v3";
+const CACHE = "phd-daily-v4";
 const ASSETS = [
   "./",
   "./index.html",

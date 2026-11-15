@@ -227,7 +227,7 @@ function renderToday() {
   const isToday = viewYmd === t.ymd;
   const minMode = Boolean(state.minMode[viewYmd]);
   document.getElementById("min-mode").checked = minMode;
-  document.getElementById("day-chip").textContent = minMode ? "Chế độ 90 phút" : dayKind(viewDay);
+  document.getElementById("day-chip").textContent = minMode ? "Chế độ 2.5 giờ" : dayKind(viewDay);
   document.getElementById("date-pick").value = viewYmd;
   document.getElementById("btn-today").hidden = isToday;
 
@@ -355,7 +355,7 @@ function renderHistory() {
     const s = taskStats(ymd);
     const empty = !s.hasLog;
     const noteBit = s.note ? " · có ghi chú" : "";
-    const minBit = s.minMode ? " · 90 phút" : "";
+    const minBit = s.minMode ? " · 2.5 giờ" : "";
     const doneBit = s.done ? `${s.done}/${s.total} việc` : "chưa tick";
     return `<button type="button" class="hist-row${empty ? " is-empty" : ""}${ymd === viewYmd ? " is-selected" : ""}" data-ymd="${ymd}">
       <span class="hist-dow">${vnWeekday(s.day).replace("Thứ ", "T").replace("Chủ nhật", "CN")}</span>
